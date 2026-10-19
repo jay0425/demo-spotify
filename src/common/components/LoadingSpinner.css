@@ -1,0 +1,64 @@
+.loading-spinner {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	background-color: #121212;
+}
+
+.loading-spinner__bars {
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+	height: 48px;
+}
+
+.loading-spinner__bar {
+	width: 8px;
+	height: 100%;
+	border-radius: 4px;
+	background-color: #1db954;
+	transform-origin: bottom;
+	animation: loading-spinner-bounce 1s ease-in-out infinite;
+}
+
+/* 막대마다 시작 시간을 다르게 해서 이퀄라이저처럼 보이게 한다. */
+.loading-spinner__bar:nth-child(1) {
+	animation-delay: -0.45s;
+}
+.loading-spinner__bar:nth-child(2) {
+	animation-delay: -0.3s;
+}
+.loading-spinner__bar:nth-child(3) {
+	animation-delay: -0.15s;
+}
+.loading-spinner__bar:nth-child(4) {
+	animation-delay: 0s;
+}
+
+.loading-spinner__text {
+	margin: 0;
+	color: #b3b3b3;
+	font-size: 14px;
+	letter-spacing: 0.1em;
+}
+
+@keyframes loading-spinner-bounce {
+	0%,
+	100% {
+		transform: scaleY(0.25);
+	}
+	50% {
+		transform: scaleY(1);
+	}
+}
+
+/* 움직임 줄이기 설정을 켠 사용자에게는 애니메이션을 느리게 보여준다. */
+@media (prefers-reduced-motion: reduce) {
+	.loading-spinner__bar {
+		animation-duration: 3s;
+	}
+}
