@@ -79,6 +79,9 @@ module.exports = (env, argv) => {
 		optimization: {
 			minimize: isProduction, // 어떻게 코드 압축할지. production 모드에서만 코드 압축
 		},
+		performance: {
+			hints: false,
+		},
 		plugins: [
 			// 빌드 프로세스를 도와주는 플러그입이다.
 			new CleanWebpackPlugin(), // 이전 빌드 파일을 삭제한다.
