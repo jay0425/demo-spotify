@@ -2,6 +2,13 @@ import { createTheme } from "@mui/material";
 
 // 웹사이트 테마 만들기
 
+// background 에 카드 안의 박스용 색(elevated)을 추가한다.
+declare module "@mui/material/styles" {
+	interface TypeBackground {
+		elevated: string;
+	}
+}
+
 const theme = createTheme({
 	palette: {
 		// 색깔 정하기.
@@ -11,12 +18,13 @@ const theme = createTheme({
 			contrastText: "#fffaf5",
 		},
 		secondary: {
-			main: "#f4c7c3", // 연한 핑크
+			main: "#fae0dd", // 연한 핑크
 			contrastText: "#4a3326",
 		},
 		background: {
-			default: "#f5ede3", // 베이지
-			paper: "#fbf6f0",
+			default: "#f5ede3", // 베이지 (페이지 배경)
+			paper: "#fbf6f0", // 크림 (사이드바 같은 카드)
+			elevated: "#f6e3dc", // 핑크빛 베이지 (카드 안의 박스)
 		},
 		text: {
 			primary: "#3e2a1e",
