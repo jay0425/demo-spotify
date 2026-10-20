@@ -4,12 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("content") as HTMLElement);
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<App />
+			<ThemeProvider theme={theme}>
+				{/* css 스타일로 일정하게 맞춰줌. app ui에서 기본적으로 제공해주는 것. 어느 브라우저든 동일성이 보장된다.*/}
+				<CssBaseline />
+				<App />
+			</ThemeProvider>
 		</BrowserRouter>
 	</React.StrictMode>,
 );
