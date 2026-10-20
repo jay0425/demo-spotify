@@ -1,5 +1,4 @@
 import { Box, Button, styled, Typography } from "@mui/material";
-import { Shadows } from "../../../node_modules/@mui/system/createTheme/createTheme.d";
 
 const LibraryContentBox = styled(Box)(({ theme }) => ({
 	borderRadius: "8px",
@@ -15,7 +14,6 @@ const LibraryContentBox = styled(Box)(({ theme }) => ({
 const LibraryButton = styled(Button)({
 	marginTop: "20px",
 	fontWeight: 700,
-	Shadows: "none",
 });
 
 const EmptyPlaylist = () => {
@@ -29,7 +27,7 @@ const EmptyPlaylist = () => {
 					It's easy, we'll help you
 				</Typography>
 			</div>
-			<LibraryButton variant="contained" color="primary">
+			<LibraryButton variant="contained" color="primary" disableElevation>
 				Create playlist
 			</LibraryButton>
 		</LibraryContentBox>
