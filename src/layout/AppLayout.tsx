@@ -4,6 +4,7 @@ import CookieIcon from "@mui/icons-material/Cookie";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
+import MouseSparkles from "../common/components/MouseSparkles";
 
 const Layout = styled("div")({
 	// 기본적으로 div 성격의 태그다.
@@ -60,6 +61,7 @@ const StyledNavLink = styled(NavLink)(({ theme }) => ({
 const AppLayout = () => {
 	return (
 		<Layout>
+			<MouseSparkles />
 			<Sidebar>
 				<ContentBox>
 					<NavList>
