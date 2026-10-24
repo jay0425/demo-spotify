@@ -1,6 +1,6 @@
 import "./App.css";
-import { Route, Routes } from "react-router";
-import React, { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router";
+import React, { useEffect, useRef } from "react";
 import HomePage from "./layout/pages/HomePage/HomePage";
 import useExchangeToken from "./hooks/useExchangeToken";
 
@@ -38,12 +38,21 @@ function App() {
 	let code = urIParams.get("code");
 	let codeVerifier = localStorage.getItem("code_verifier");
 	const { mutate: exchangeToken } = useExchangeToken();
+	const navigate = useNavigate();
+	// 개발 모드의 StrictMode 는 useEffect 를 두 번 실행한다. code 는 한 번만 쓸 수 있어서 두 번째 교환 요청을 막는다.
+	const isExchanged = useRef(false);
 
 	useEffect(() => {
+		if (isExchanged.current) return;
 		if (code && codeVerifier) {
-			exchangeToken({ code, codeVerifier });
+			isExchanged.current = true;
+			exchangeToken(
+				{ code, codeVerifier },
+				// 성공이든 실패든 끝나면 주소창의 ?code=... 를 지운다. 이미 쓴 code 라 남겨둘 필요가 없다.
+				{ onSettled: () => navigate(window.location.pathname, { replace: true }) },
+			);
 		}
-	}, [code, codeVerifier, exchangeToken]);
+	}, [code, codeVerifier, exchangeToken, navigate]);
 
 	return (
 		// Suspense는 리액트 컴포넌트가 로딩 상태일때 관리해주는 어떤 도구. 비동기 상태 관리해주는 도구. 아직 js파일 안왔어? 그럼 로딩 화면 보여줄게~~ js 오고 있는 중입니다~~~~
