@@ -1,3 +1,5 @@
+// 사용할 수 없는 API. 스포티파이에서 막음.
+
 import { useQuery } from "@tanstack/react-query";
 import { getNewReleases } from "../apis/albumApi";
 import useClientCredentialToken from "./useClientCredentialToken";

@@ -4,7 +4,7 @@ import CookieIcon from "@mui/icons-material/Cookie";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
-import MouseSparkles from "../common/components/MouseSparkles";
+import MouseSparkles from "../common/components/ui/MouseSparkles";
 import Navbar from "./components/Navbar";
 
 const Layout = styled("div")({
@@ -12,6 +12,7 @@ const Layout = styled("div")({
 	display: "flex",
 	height: "100vh",
 	padding: "8px",
+	gap: "8px",
 });
 
 const Sidebar = styled("div")(({ theme }) => ({

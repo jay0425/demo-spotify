@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./ui/Button";
+import Button from "./Button";
 
 const LoginButton = () => {
 	return <Button size="large">로그인</Button>;

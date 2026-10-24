@@ -20,6 +20,8 @@ export interface ButtonProps {
 
 const StyledButton = styled(MuiButton)({
 	fontWeight: 700,
+	flexShrink: 0, // 부모(flex)가 좁아져도 버튼이 줄어들지 않는다. (테일윈드 shrink-0)
+	whiteSpace: "nowrap", // 버튼 안 글자가 두 줄로 꺾이지 않는다. (테일윈드 whitespace-nowrap)
 });
 
 const Button = ({

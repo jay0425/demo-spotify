@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router";
 import React, { Suspense } from "react";
-import LoadingSpinner from "./common/components/LoadingSpinner";
+import LoadingSpinner from "./common/components/ui/LoadingSpinner";
 
 // React.lazy는 default export된 컴포넌트만 불러올 수 있다.
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));

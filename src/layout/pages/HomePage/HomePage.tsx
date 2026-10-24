@@ -1,9 +1,9 @@
-import NewReleases from "./componenets/NewReleases";
+import NewAlbums from "./components/NewAlbums";
 
 const HomePage = () => {
 	return (
 		<div>
-			<NewReleases />
+			<NewAlbums />
 		</div>
 	);
 };
