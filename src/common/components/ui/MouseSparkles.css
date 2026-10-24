@@ -13,7 +13,7 @@
 	line-height: 1;
 	text-shadow: 0 0 7px currentColor;
 	will-change: transform, opacity;
-	animation: mouse-sparkle-fall 3500ms ease-out forwards;
+	animation: mouse-sparkle-fall 2500ms ease-out forwards;
 }
 
 @keyframes mouse-sparkle-fall {

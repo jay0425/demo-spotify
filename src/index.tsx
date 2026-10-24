@@ -8,6 +8,13 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+// 스포티파이는 redirect URI 로 localhost 를 허용하지 않아서 로컬 개발은 127.0.0.1 로 한다.
+// localhost 와 127.0.0.1 은 브라우저가 다른 사이트로 봐서 localStorage(로그인용 code_verifier)도 따로 쓴다.
+// 그래서 localhost 로 들어오면 같은 주소의 127.0.0.1 로 옮긴다.
+if (window.location.hostname === "localhost") {
+	window.location.replace(window.location.href.replace("//localhost", "//127.0.0.1"));
+}
+
 const root = ReactDOM.createRoot(document.getElementById("content") as HTMLElement);
 const queryClient = new QueryClient({
 	defaultOptions: {

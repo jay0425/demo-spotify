@@ -1,4 +1,4 @@
-import { ExternalUrls, Image } from "./commonType";
+import { ExternalUrls, Followers, Image } from "./commonType";
 
 // 스포티파이 문서에 Required 표시가 없어서 전부 optional 이다.
 export interface SimplifiedArtist {
@@ -13,10 +13,7 @@ export interface SimplifiedArtist {
 export interface Artist {
 	external_urls?: ExternalUrls;
 	/** @deprecated 스포티파이에서 더 이상 권장하지 않는 필드 */
-	followers?: {
-		href: null; // 항상 null
-		total?: number;
-	};
+	followers?: Followers;
 	/** @deprecated 스포티파이에서 더 이상 권장하지 않는 필드 */
 	genres?: string[];
 	href?: string;

@@ -1,8 +1,8 @@
 import "./App.css";
 import { Route, Routes } from "react-router";
-import React, { Suspense } from "react";
-import LoadingSpinner from "./common/components/ui/LoadingSpinner";
+import React, { useEffect } from "react";
 import HomePage from "./layout/pages/HomePage/HomePage";
+import useExchangeToken from "./hooks/useExchangeToken";
 
 // React.lazy는 default export된 컴포넌트만 불러올 수 있다.
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
@@ -34,6 +34,17 @@ const CallbackPage = React.lazy(() => import("./layout/pages/CallbackPage/Callba
 // 각 페이지가 별도 청크 파일로 분리된다 -> 초기 번들 사이즈 감소 -> 초기 화면의 로딩 속도가 빨라진다. (전체 코드 양이 줄어드는건 아님)
 // lazy 컴포넌트는 다운로드 중에 보여줄 화면이 필요해서 <Suspense fallback>으로 감싸야 한다.
 function App() {
+	const urIParams = new URLSearchParams(window.location.search);
+	let code = urIParams.get("code");
+	let codeVerifier = localStorage.getItem("code_verifier");
+	const { mutate: exchangeToken } = useExchangeToken();
+
+	useEffect(() => {
+		if (code && codeVerifier) {
+			exchangeToken({ code, codeVerifier });
+		}
+	}, [code, codeVerifier, exchangeToken]);
+
 	return (
 		// Suspense는 리액트 컴포넌트가 로딩 상태일때 관리해주는 어떤 도구. 비동기 상태 관리해주는 도구. 아직 js파일 안왔어? 그럼 로딩 화면 보여줄게~~ js 오고 있는 중입니다~~~~
 		// <Suspense fallback={<LoadingSpinner />}>
