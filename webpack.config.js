@@ -91,6 +91,8 @@ module.exports = (env, argv) => {
 			}),
 			new Dotenv({
 				// 환경 변수 파일을 로드한다.
+				path: isProduction ? ".env.production" : ".env.development",
+				defaults: ".env",
 				allowEmptyValues: true,
 				systemvars: true,
 			}),
