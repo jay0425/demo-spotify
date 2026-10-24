@@ -5,10 +5,11 @@ const Navbar = () => {
 	return (
 		<Box
 			sx={{
+				// backgroundColor: "pink",
 				display: "flex",
 				justifyContent: "flex-end",
-				alignItems: "start",
-				height: "64px",
+				alignItems: "center",
+				paddingBlock: "10px",
 			}}>
 			<LoginButton />
 		</Box>

@@ -7,9 +7,9 @@ const LibraryContentBox = styled(Box)(({ theme }) => ({
 	color: theme.palette.text.primary,
 	width: "100%",
 	padding: "18px",
-	marginTop: "15px",
-	marginBottom: "8px",
-	marginRight: "8px",
+	// marginTop: "15px",
+	// marginBottom: "8px",
+	// marginRight: "8px",
 }));
 
 const LibraryButton = styled(Button)({
@@ -27,9 +27,7 @@ const EmptyPlaylist = () => {
 					내 취향 가득 담아...
 				</Typography>
 			</div>
-			<LibraryButton>
-				플레이 리스트 만들기
-			</LibraryButton>
+			<LibraryButton>플레이 리스트 만들기</LibraryButton>
 		</LibraryContentBox>
 	);
 };

@@ -23,6 +23,7 @@ const Sidebar = styled("div")(({ theme }) => ({
 	[theme.breakpoints.down("sm")]: {
 		display: "none",
 	},
+	gap: "8px",
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
@@ -30,10 +31,8 @@ const ContentBox = styled(Box)(({ theme }) => ({
 	backgroundColor: theme.palette.background.paper,
 	color: theme.palette.text.primary,
 	width: "100%",
-	paddingBlock: "30px",
+	paddingBlock: "10px",
 	paddingInline: "20px",
-	marginBottom: "8px",
-	marginRight: "8px",
 }));
 
 const NavList = styled("ul")({
