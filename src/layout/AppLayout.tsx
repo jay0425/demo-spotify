@@ -5,6 +5,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
 import MouseSparkles from "../common/components/MouseSparkles";
+import Navbar from "./components/Navbar";
 
 const Layout = styled("div")({
 	// 기본적으로 div 성격의 태그다.
@@ -68,13 +69,13 @@ const AppLayout = () => {
 						<StyledNavLink to="/" end>
 							<CookieIcon />
 							<Typography variant="h2" sx={{ fontWeight: 700 }}>
-								Home
+								홈
 							</Typography>
 						</StyledNavLink>
 						<StyledNavLink to="/search">
 							<VisibilityIcon />
 							<Typography variant="h2" sx={{ fontWeight: 700 }}>
-								Search
+								검색하기
 							</Typography>
 						</StyledNavLink>
 					</NavList>
@@ -84,8 +85,11 @@ const AppLayout = () => {
 					<Library />
 				</ContentBox>
 			</Sidebar>
-			{/* 자식들이 Outlet로 마치 컴포넌트 처럼 들어오게 된다. */}
-			<Outlet />
+			<ContentBox>
+				<Navbar />
+				{/* 자식들이 Outlet로 마치 컴포넌트 처럼 들어오게 된다. */}
+				<Outlet />
+			</ContentBox>
 		</Layout>
 	);
 };
