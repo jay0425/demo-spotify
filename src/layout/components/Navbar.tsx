@@ -1,11 +1,19 @@
 import { useState } from "react";
-import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, Box, FormControlLabel, IconButton, Menu, MenuItem, Switch } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LoginButton from "../../common/components/ui/LoginButton";
 import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
 import useLogout from "../../hooks/useLogout";
+import StarIcon from "@mui/icons-material/Star";
 
-const Navbar = () => {
+interface NavbarProps {
+	/** 마우스 반짝이 효과가 켜져 있는지 */
+	isSparklesOn: boolean;
+	/** 반짝이 효과 켜기/끄기 */
+	onToggleSparkles: () => void;
+}
+
+const Navbar = ({ isSparklesOn, onToggleSparkles }: NavbarProps) => {
 	const { data: userProfile } = useGetCurrentUserProfile();
 	const logout = useLogout();
 	// 메뉴를 어디 아래에 띄울지 기준이 되는 요소(프로필 버튼). null 이면 메뉴가 닫힌 상태.
@@ -24,6 +32,25 @@ const Navbar = () => {
 				alignItems: "center",
 				paddingBlock: "10px",
 			}}>
+			{/* 로그인 여부와 상관없이 항상 맨 왼쪽(로그인 버튼 / 프로필 왼쪽)에 보인다 */}
+			<FormControlLabel
+				control={
+					<Switch
+						checked={isSparklesOn}
+						onChange={onToggleSparkles}
+						size="small"
+						// icon={<StarIcon sx={{ fontSize: 30, transform: "translateY(-5px)" }} />}
+						// checkedIcon={<StarIcon sx={{ fontSize: 30, transform: "translateY(-7px)" }} />}
+					/>
+				}
+				label="반짝이"
+				sx={{
+					marginRight: "12px",
+					"& .MuiFormControlLabel-label": {
+						display: "none",
+					},
+				}}
+			/>
 			{userProfile ? (
 				<>
 					어서와요, {userProfile.display_name}님

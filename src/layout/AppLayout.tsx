@@ -6,7 +6,7 @@ import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
 import MouseSparkles from "../common/components/ui/MouseSparkles";
 import Navbar from "./components/Navbar";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import LoadingSpinner from "../common/components/ui/LoadingSpinner";
 
 const Layout = styled("div")({
@@ -63,9 +63,20 @@ const StyledNavLink = styled(NavLink)(({ theme }) => ({
 }));
 
 const AppLayout = () => {
+	// 마우스 반짝이 효과를 켤지. 토글은 Navbar 에 있고 효과는 여기서 그려서, 둘의 부모인 여기서 상태를 갖는다.
+	// 새로고침해도 유지되게 localStorage 에 저장한다. (처음엔 켜진 상태)
+	const [isSparklesOn, setIsSparklesOn] = useState(() => localStorage.getItem("mouse-sparkles") !== "off");
+
+	const toggleSparkles = () => {
+		const next = !isSparklesOn;
+		setIsSparklesOn(next);
+		localStorage.setItem("mouse-sparkles", next ? "on" : "off");
+	};
+
 	return (
 		<Layout>
-			<MouseSparkles />
+			{/* 끄면 컴포넌트가 사라지면서 MouseSparkles 가 마우스 이벤트를 알아서 정리한다 */}
+			{isSparklesOn && <MouseSparkles />}
 			<Sidebar>
 				<ContentBox>
 					<NavList>
@@ -89,7 +100,7 @@ const AppLayout = () => {
 				</ContentBox>
 			</Sidebar>
 			<ContentBox>
-				<Navbar />
+				<Navbar isSparklesOn={isSparklesOn} onToggleSparkles={toggleSparkles} />
 				<Suspense fallback={<LoadingSpinner />}>
 					{/* 자식들이 Outlet로 마치 컴포넌트 처럼 들어오게 된다. */}
 					<Outlet />
