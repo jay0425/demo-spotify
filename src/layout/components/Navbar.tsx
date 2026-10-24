@@ -5,7 +5,6 @@ const Navbar = () => {
 	return (
 		<Box
 			sx={{
-				// backgroundColor: "pink",
 				display: "flex",
 				justifyContent: "flex-end",
 				alignItems: "center",

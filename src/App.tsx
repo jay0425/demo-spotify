@@ -2,10 +2,11 @@ import "./App.css";
 import { Route, Routes } from "react-router";
 import React, { Suspense } from "react";
 import LoadingSpinner from "./common/components/ui/LoadingSpinner";
+import HomePage from "./layout/pages/HomePage/HomePage";
 
 // React.lazy는 default export된 컴포넌트만 불러올 수 있다.
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
-const HomePage = React.lazy(() => import("./layout/pages/HomePage/HomePage"));
+// const HomePage = React.lazy(() => import("./layout/pages/HomePage/HomePage"));
 const SearchPage = React.lazy(() => import("./layout/pages/SearchPage/SearchPage"));
 const SearchWithKeywordPage = React.lazy(
 	() => import("./layout/pages/SearchWithKeywordPage/SearchWithKeywordPage"),
@@ -14,6 +15,7 @@ const PlaylistPage = React.lazy(() => import("./layout/pages/PlaylistPage/Playli
 const PlaylistDetailPage = React.lazy(
 	() => import("./layout/pages/PlaylistDetailPage/PlaylistDetailPage"),
 );
+const CallbackPage = React.lazy(() => import("./layout/pages/CallbackPage/CallbackPage"));
 
 // 로그인 페이지는 스포티파이가 만들어줘서 우리가 만들어주지 않는다.
 
@@ -34,18 +36,20 @@ const PlaylistDetailPage = React.lazy(
 function App() {
 	return (
 		// Suspense는 리액트 컴포넌트가 로딩 상태일때 관리해주는 어떤 도구. 비동기 상태 관리해주는 도구. 아직 js파일 안왔어? 그럼 로딩 화면 보여줄게~~ js 오고 있는 중입니다~~~~
-		<Suspense fallback={<LoadingSpinner />}>
-			<Routes>
-				<Route path="/" element={<AppLayout />}>
-					<Route index element={<HomePage />} />
-					<Route path="search" element={<SearchPage />} />
-					<Route path="search/:keyword" element={<SearchWithKeywordPage />} />
-					<Route path="playlist/:id" element={<PlaylistDetailPage />} />
-					<Route path="playlist" element={<PlaylistPage />} />
-				</Route>
-				{/* <Route path="/admin" element={AdminLayout} /> */}
-			</Routes>
-		</Suspense>
+		// <Suspense fallback={<LoadingSpinner />}>
+		<Routes>
+			<Route path="/" element={<AppLayout />}>
+				<Route index element={<HomePage />} />
+				<Route path="search" element={<SearchPage />} />
+				<Route path="search/:keyword" element={<SearchWithKeywordPage />} />
+				<Route path="playlist/:id" element={<PlaylistDetailPage />} />
+				<Route path="playlist" element={<PlaylistPage />} />
+				{/* 스포티파이 로그인 후 돌아오는 주소 (.env 의 REACT_APP_REDIRECT_URI) */}
+				<Route path="callback" element={<CallbackPage />} />
+			</Route>
+			{/* <Route path="/admin" element={AdminLayout} /> */}
+		</Routes>
+		// </Suspense>
 	);
 }
 

@@ -1,8 +1,15 @@
-import React from "react";
+import { getSpotifyAuthUrl } from "../../../utils/auth";
 import Button from "./Button";
 
 const LoginButton = () => {
-	return <Button size="large">로그인</Button>;
+	const login = () => {
+		getSpotifyAuthUrl();
+	};
+	return (
+		<Button variant="contained" size="large" onClick={login}>
+			로그인
+		</Button>
+	);
 };
 
 export default LoginButton;

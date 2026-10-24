@@ -6,6 +6,8 @@ import LibraryHead from "./components/LibraryHead";
 import Library from "./components/Library";
 import MouseSparkles from "../common/components/ui/MouseSparkles";
 import Navbar from "./components/Navbar";
+import { Suspense } from "react";
+import LoadingSpinner from "../common/components/ui/LoadingSpinner";
 
 const Layout = styled("div")({
 	// 기본적으로 div 성격의 태그다.
@@ -31,6 +33,7 @@ const ContentBox = styled(Box)(({ theme }) => ({
 	backgroundColor: theme.palette.background.paper,
 	color: theme.palette.text.primary,
 	width: "100%",
+	position: "relative", // 안쪽 로딩 스피너(position: absolute)가 이 박스를 기준으로 가운데에 뜨게 한다
 	paddingBlock: "10px",
 	paddingInline: "20px",
 }));
@@ -87,8 +90,10 @@ const AppLayout = () => {
 			</Sidebar>
 			<ContentBox>
 				<Navbar />
-				{/* 자식들이 Outlet로 마치 컴포넌트 처럼 들어오게 된다. */}
-				<Outlet />
+				<Suspense fallback={<LoadingSpinner />}>
+					{/* 자식들이 Outlet로 마치 컴포넌트 처럼 들어오게 된다. */}
+					<Outlet />
+				</Suspense>
 			</ContentBox>
 		</Layout>
 	);

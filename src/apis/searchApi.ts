@@ -2,7 +2,10 @@ import axios from "axios";
 import { SPOTIFY_BASE_URL } from "../configs/commonConfig";
 import { SearchRequest, SearchResponse } from "../models/search";
 
-export const searchItems = async (token: string, params: SearchRequest): Promise<SearchResponse> => {
+export const searchItems = async (
+	token: string,
+	params: SearchRequest,
+): Promise<SearchResponse> => {
 	try {
 		const response = await axios.get(`${SPOTIFY_BASE_URL}/search`, {
 			headers: {
