@@ -1,8 +1,10 @@
 import { Grid, Typography } from "@mui/material";
+import axios from "axios";
+import Card from "../../../../common/components/Card";
 import ErrorMessage from "../../../../common/components/ErrorMessage";
-import Card from "../../../../common/components/ui/Card";
 import LoadingSpinner from "../../../../common/components/ui/LoadingSpinner";
 import useSearchItems from "../../../../hooks/useSearchItems";
+import { DUMMY_ALBUMS } from "../../../../mocks/albums";
 
 // /browse/new-releases 가 막혀서 검색 API 의 tag:new 필터(최근 2주 안에 나온 앨범)로 대신 가져온다.
 const NewAlbums = () => {
@@ -11,24 +13,34 @@ const NewAlbums = () => {
 	if (isPending) {
 		return <LoadingSpinner />;
 	}
-	if (error) {
+	// 403 : 앱 소유자 계정에 Premium 이 없어서 스포티파이가 막은 상태. 화면 작업을 계속할 수 있게 더미 데이터를 보여준다.
+	const cause = error?.cause;
+	const isForbidden = axios.isAxiosError(cause) && cause.response?.status === 403;
+	if (error && !isForbidden) {
 		return <ErrorMessage errorMessage={error.message} />;
 	}
-	const albums = data?.albums?.items ?? [];
+	const albums = isForbidden ? DUMMY_ALBUMS : (data?.albums?.items ?? []);
 	return (
 		<div>
 			<Typography variant="h1" sx={{ paddingTop: "8px" }}>
 				New Released Albums
 			</Typography>
+			{isForbidden && (
+				<Typography variant="body1" color="text.secondary">
+					스포티파이 API 403(앱 소유자 Premium 필요)이라 더미 데이터를 보여주고 있습니다.
+				</Typography>
+			)}
 			{albums.length > 0 ? (
-				<Grid container spacing={2}>
+				<Grid container spacing={1}>
 					{albums.map((album) => (
-						<Card
-							key={album.id}
-							image={album.images[0]?.url ?? ""}
-							name={album.name}
-							artistName={album.artists.map((artist) => artist.name).join(", ")}
-						/>
+						// 12칸 중 몇 칸을 쓸지 : 모바일(xs) 6칸 → 2개, 태블릿(sm) 4칸 → 3개, 데스크탑(md 이상) 2칸 → 6개
+						<Grid key={album.id} size={{ xs: 6, sm: 4, md: 2 }}>
+							<Card
+								image={album.images[0]?.url}
+								title={album.name}
+								subtitle={album.artists.map((artist) => artist.name).join(", ")}
+							/>
+						</Grid>
 					))}
 				</Grid>
 			) : (

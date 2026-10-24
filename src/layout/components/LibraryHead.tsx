@@ -6,8 +6,7 @@ const LibraryHeader = styled("div")({
 	display: "flex",
 	alignItems: "center",
 	padding: 0,
-	// paddingLeft: "14px",
-	margin: 0,
+	marginBottom: "8px",
 	gap: "20px",
 });
 
@@ -23,6 +22,7 @@ const LibraryHead = () => {
 			<IconButton
 				aria-label="플레이리스트 추가"
 				sx={(theme) => ({
+					marginLeft: "auto", // 남는 가로 공간을 왼쪽 여백으로 다 써서 버튼을 오른쪽 끝으로 민다
 					color: "text.secondary",
 					"--IconButton-hoverBg": theme.palette.action.hover,
 				})}>

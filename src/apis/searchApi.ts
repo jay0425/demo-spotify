@@ -14,6 +14,7 @@ export const searchItems = async (token: string, params: SearchRequest): Promise
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error)) console.error(error.response?.data);
-		throw new Error("search fetch 실패");
+		// cause 에 원래 에러를 담아두면, 쓰는 쪽에서 상태 코드(403 등)를 확인할 수 있다.
+		throw new Error("search fetch 실패", { cause: error });
 	}
 };

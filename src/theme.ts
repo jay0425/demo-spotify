@@ -63,7 +63,7 @@ const theme = createTheme({
 							props: { variant: "contained", color: "secondary" },
 							style: {
 								backgroundColor: "#f4c7c3",
-								color: "#4a3326",
+								color: "#4a3d36",
 								"&:hover": {
 									backgroundColor: "#eeb2ac",
 								},

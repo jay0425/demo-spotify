@@ -3,7 +3,7 @@ import Button from "../../common/components/ui/Button";
 
 const LibraryContentBox = styled(Box)(({ theme }) => ({
 	borderRadius: "8px",
-	backgroundColor: theme.palette.background.elevated,
+	backgroundColor: theme.palette.background.default,
 	color: theme.palette.text.primary,
 	width: "100%",
 	padding: "18px",
