@@ -14,7 +14,7 @@ const InnerHeader = styled("div")(({ theme }) => ({
 	textDecoration: "none",
 	display: "flex",
 	alignItems: "center",
-	gap: "20px",
+	gap: "15px",
 	cursor: "pointer",
 	color: theme.palette.text.secondary,
 	"&:hover": {
@@ -25,30 +25,13 @@ const InnerHeader = styled("div")(({ theme }) => ({
 	},
 }));
 
-// const StyledNavLink = styled(NavLink)(({ theme }) => ({
-// 	textDecoration: "none",
-// 	display: "flex",
-// 	alignItems: "center",
-// 	gap: "20px",
-// 	cursor: "pointer",
-// 	color: theme.palette.text.secondary,
-// 	"&:hover": {
-// 		color: theme.palette.text.primary,
-// 	},
-// 	"&.active": {
-// 		color: theme.palette.text.primary,
-// 	},
-// }));
-
 const LibraryHead = () => {
 	return (
 		<LibraryHeader>
-			{/* <InnerHeader> */}
 			<CreateNewFolderIcon />
 			<Typography variant="h2" sx={{ fontWeight: 700 }}>
-				My Library
+				내 라이브러리
 			</Typography>
-			{/* </InnerHeader> */}
 		</LibraryHeader>
 	);
 };
