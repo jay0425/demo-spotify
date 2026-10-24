@@ -72,7 +72,7 @@ module.exports = (env, argv) => {
 		devtool: isProduction ? "source-map" : "inline-source-map", // 어떤 식으로 코드를 인코딩할지 셋팅.
 		devServer: {
 			port: 3000,
-			open: true,
+			open: false,
 			hot: true,
 			historyApiFallback: true,
 		},

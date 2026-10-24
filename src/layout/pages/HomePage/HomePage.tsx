@@ -1,7 +1,11 @@
-import React from "react";
+import NewReleases from "./componenets/NewReleases";
 
 const HomePage = () => {
-	return <div>HomPage</div>;
+	return (
+		<div>
+			<NewReleases />
+		</div>
+	);
 };
 
 export default HomePage;
