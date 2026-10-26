@@ -38,6 +38,17 @@ const ContentBox = styled(Box)(({ theme }) => ({
 	paddingInline: "20px",
 }));
 
+// 내 라이브러리 박스. 사이드바에서 위의 메뉴 박스를 빼고 남은 세로 공간을 전부 쓴다.
+// Sidebar 는 height: 100% 라서 옆의 ContentBox 와 높이가 같다. 이 박스가 그 안에 딱 맞아야 사이드바도 넘치지 않는다.
+const LibraryBox = styled(ContentBox)({
+	flex: 1, // 남은 세로 공간을 다 차지한다
+	// flex 아이템은 기본으로 내용보다 작아지지 않는다(min-height: auto). 그래서 플레이리스트가 많으면 박스가 늘어나서 사이드바 밖으로 넘친다.
+	// 0 으로 하면 박스는 남은 공간 크기로 고정되고, 넘치는 부분은 안쪽 Playlist 가 스크롤로 보여준다.
+	minHeight: 0,
+	display: "flex",
+	flexDirection: "column", // 헤드 아래에 오는 Playlist 가 남은 높이를 받을 수 있게 세로 flex 로 만든다
+});
+
 const NavList = styled("ul")({
 	listStyle: "none",
 	padding: 0,
@@ -94,10 +105,10 @@ const AppLayout = () => {
 						</StyledNavLink>
 					</NavList>
 				</ContentBox>
-				<ContentBox>
+				<LibraryBox>
 					<LibraryHead />
 					<Library />
-				</ContentBox>
+				</LibraryBox>
 			</Sidebar>
 			<ContentBox>
 				<Navbar isSparklesOn={isSparklesOn} onToggleSparkles={toggleSparkles} />
