@@ -1,2 +1,2 @@
-export const SPOTIFY_BASE_URL = process.env.SPOTIFY_BASE_URL;
-export const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+export const SPOTIFY_BASE_URL = import.meta.env.SPOTIFY_BASE_URL;
+export const REDIRECT_URI = import.meta.env.REACT_APP_REDIRECT_URI;

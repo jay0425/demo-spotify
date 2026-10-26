@@ -21,3 +21,12 @@ export interface Copyright {
 	text?: string;
 	type?: string; // C = 저작권, P = 음원(실연) 저작권
 }
+
+export interface Owner {
+	external_urls?: ExternalUrls;
+	href?: string;
+	id?: string;
+	type?: string;
+	uri?: string;
+	display_name?: string | null;
+}
