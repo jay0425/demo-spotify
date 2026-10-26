@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Avatar, Box, FormControlLabel, IconButton, Menu, MenuItem, Switch } from "@mui/material";
+import {
+	Avatar,
+	Box,
+	FormControlLabel,
+	IconButton,
+	Menu,
+	MenuItem,
+	Switch,
+	Typography,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LoginButton from "../../common/components/ui/LoginButton";
 import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
@@ -53,7 +62,8 @@ const Navbar = ({ isSparklesOn, onToggleSparkles }: NavbarProps) => {
 			/>
 			{userProfile ? (
 				<>
-					어서와요, {userProfile.display_name}님
+					어서 오세요,
+					<Typography sx={{ fontWeight: "bold", mx: 0.5 }}>{userProfile.display_name}</Typography>님
 					{/* 클릭할 수 있게 IconButton 으로 감싼다. (키보드 Tab/Enter 로도 열린다) */}
 					<IconButton
 						aria-label="프로필 메뉴"
