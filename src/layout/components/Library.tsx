@@ -1,15 +1,33 @@
-import React from "react";
+import { styled } from "@mui/material";
 import useGetCurrentUserPlaylists from "../../hooks/useGetCurrentUserPlaylists";
 import EmptyPlaylist from "./EmptyPlaylist";
 import Playlist from "./Playlist";
 import LoadingSpinner from "../../common/components/ui/LoadingSpinner";
 import ErrorMessage from "../../common/components/ErrorMessage";
+import useGetCurrentUserProfile from "../../hooks/useGetCurrentUserProfile";
+import { useInView } from "react-intersection-observer";
+
+// LoadingSpinner 는 position: relative 가 있는 가장 가까운 조상을 꽉 채우고 그 가운데에 뜬다 (position: absolute; inset: 0).
+// 이 박스가 없으면 바깥의 사이드바 박스(헤드 + 라이브러리)가 기준이 돼서, 낮은 박스 가운데에 뜨느라 헤드 위로 삐져나온다.
+// 그래서 헤드 아래에 스피너가 들어갈 높이의 기준 박스를 따로 만든다.
+const LoadingBox = styled("div")({
+	position: "relative",
+	height: "160px",
+});
 
 const Library = () => {
-	const { data, isLoading, error } = useGetCurrentUserPlaylists({ limit: 10, offset: 0 });
+	const { ref, inView } = useInView();
+
+	const { data, isLoading, error } = useGetCurrentUserPlaylists({ limit: 10 });
+	const { data: user } = useGetCurrentUserProfile();
+	if (!user) return <EmptyPlaylist />;
 
 	if (isLoading) {
-		return <LoadingSpinner />;
+		return (
+			<LoadingBox>
+				<LoadingSpinner />
+			</LoadingBox>
+		);
 	}
 	if (error) {
 		return <ErrorMessage errorMessage={error.message} />;
@@ -19,7 +37,12 @@ const Library = () => {
 		<>
 			{
 				// ! 기존에는 단순히 data 하나로 했었음. 아래와 같은 방식 참고
-				!data || data.total === 0 ? <EmptyPlaylist /> : <Playlist playlists={data.items} />
+				// total 은 어느 페이지에나 전체 개수로 똑같이 들어 있다. 불러온 페이지들의 items 는 하나로 이어 붙여서 넘긴다
+				!data || data.pages[0].total === 0 ? (
+					<EmptyPlaylist />
+				) : (
+					<Playlist playlists={data.pages.flatMap((page) => page.items)} />
+				)
 			}
 		</>
 	);
