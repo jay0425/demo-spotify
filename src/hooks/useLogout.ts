@@ -7,8 +7,9 @@ const useLogout = () => {
 	return () => {
 		localStorage.removeItem("access_token");
 		localStorage.removeItem("refresh_token");
-		// 캐시에 남아 있으면 로그아웃해도 프로필이 계속 보여서 지운다.
+		// 캐시에 남아 있으면 로그아웃해도 프로필, 플레이리스트가 계속 보여서 지운다.
 		queryClient.removeQueries({ queryKey: ["current-user-profile"] });
+		queryClient.removeQueries({ queryKey: ["current-user-playlists"] }); // 앞부분만 같으면 limit/offset 상관없이 다 지운다
 	};
 };
 
