@@ -16,7 +16,9 @@ const useExchangeToken = () => {
 			localStorage.setItem("refresh_token", data.refresh_token);
 			localStorage.removeItem("code_verifier"); // 다 쓴 값이라 지운다
 			// 로그인 전에 받아둔 "로그인 안 함(null)" 프로필을 버리고, 새 토큰으로 다시 불러오게 한다.
+			// enabled 가 함수라서 컴포넌트가 다시 그려지는 것만으로는 요청하지 않는다. 여기서 직접 다시 불러오라고 해야 한다.
 			queryClient.invalidateQueries({ queryKey: ["current-user-profile"] });
+			queryClient.invalidateQueries({ queryKey: ["current-user-playlists"] });
 		},
 	});
 };
