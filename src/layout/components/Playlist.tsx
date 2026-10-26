@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import { GetCurrentUserPlaylistResponse } from "../../models/playlist";
+import { useMatch, useNavigate } from "react-router";
+import { SimplifiedPlaylist } from "../../models/playlist";
 
 interface PlaylistProps {
-	/** 내 플레이리스트 목록 (GET /me/playlists 응답) */
-	data: GetCurrentUserPlaylistResponse;
+	/** 내 플레이리스트 목록 (GET /me/playlists 응답의 items) */
+	playlists: SimplifiedPlaylist[];
 }
 
 // 이미지 위 재생 아이콘을 감싸는 div 의 클래스. 줄에 마우스를 올렸을 때 이 클래스를 찾아서 보이게 한다.
@@ -27,9 +28,10 @@ const PlaylistItemButton = styled(ListItemButton)({
 	borderRadius: "8px",
 	// 마우스를 올리거나, 키보드(Tab)로 포커스하면 재생 아이콘이 나타난다.
 	// Mui-focusVisible : 마우스 클릭이 아니라 키보드로 포커스했을 때만 MUI 가 붙여주는 클래스
-	[`&:hover .${PLAY_OVERLAY_CLASS}, &.${listItemButtonClasses.focusVisible} .${PLAY_OVERLAY_CLASS}`]: {
-		opacity: 1,
-	},
+	[`&:hover .${PLAY_OVERLAY_CLASS}, &.${listItemButtonClasses.focusVisible} .${PLAY_OVERLAY_CLASS}`]:
+		{
+			opacity: 1,
+		},
 });
 
 // 재생 아이콘을 이미지 위에 띄우려고 기준점(position: relative)을 만든다.
@@ -61,18 +63,32 @@ const PlayOverlay = styled("div")(({ theme }) => ({
 	transition: "opacity 0.2s",
 }));
 
-const Playlist = ({ data }: PlaylistProps) => {
+const Playlist = ({ playlists }: PlaylistProps) => {
+	const navigate = useNavigate();
+	// 지금 보고 있는 플레이리스트의 id. 주소가 /playlist/:id 가 아니면 undefined.
+	// 클릭한 id 를 state 로 따로 들고 있지 않고 주소에서 읽어서, 새로고침하거나 뒤로가기 해도 선택 표시가 주소와 맞는다.
+	const selectedId = useMatch("/playlist/:id")?.params.id;
+
 	return (
-		<List disablePadding>
-			{data.items.map((playlist, index) => {
+		<List sx={{ display: "flex", flexDirection: "column", gap: 0.5 }} disablePadding>
+			{playlists.map((playlist, index) => {
 				const ownerName = playlist.owner?.display_name;
+				const isSelected = !!playlist.id && playlist.id === selectedId;
 				return (
 					// id 가 없는 경우는 거의 없지만 타입상 optional 이라 index 로 대신한다
 					<ListItem key={playlist.id ?? index} disablePadding>
-						<PlaylistItemButton>
+						{/* selected : MUI 가 테마의 primary 색을 옅게 깔아서 선택된 줄을 표시해준다 */}
+						<PlaylistItemButton
+							selected={isSelected}
+							aria-current={isSelected ? "page" : undefined} // 스크린 리더에 "현재 페이지" 라고 알려준다
+							// id 가 없으면 /playlist/ (목록 페이지) 로 잘못 가니까 이동하지 않는다
+							onClick={() => playlist.id && navigate(`/playlist/${playlist.id}`)}>
 							<ImageBox>
 								{/* images 는 큰 사진부터 오고, 비어 있을 수도 있다. 사진이 없거나 못 불러오면 안쪽(children)의 음표 아이콘이 대신 보인다 */}
-								<PlaylistImage variant="rounded" src={playlist.images?.[0]?.url} alt={playlist.name}>
+								<PlaylistImage
+									variant="rounded"
+									src={playlist.images?.[0]?.url}
+									alt={playlist.name}>
 									<MusicNoteIcon />
 								</PlaylistImage>
 								<PlayOverlay className={PLAY_OVERLAY_CLASS}>
