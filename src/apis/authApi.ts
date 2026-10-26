@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CLIENT_ID, SECRET_ID } from "../configs/authConfig";
 import { REDIRECT_URI } from "../configs/commonConfig";
-import { ClientCredentialTokenResponse, ExchangeTokenResponse } from "../models/auth";
+import { ClientCredentialTokenResponse, ExchangeTokenResponse, RefreshTokenResponse } from "../models/auth";
 
 // const encodedBase64 = (data: string): string => {
 // 	return Buffer.from(data).toString("base64");
@@ -58,5 +58,29 @@ export const exchangeToken = async (code: string, codeVerifier: string): Promise
 	} catch (error) {
 		if (axios.isAxiosError(error)) console.error(error.response?.data);
 		throw new Error("access token 교환 실패", { cause: error });
+	}
+};
+
+// access token 은 1시간이면 만료된다. 로그인 때 받은 refresh token 으로 새 access token 을 받는다.
+// (PKCE 방식이라 시크릿 없이 client_id 만 보낸다)
+export const refreshAccessToken = async (refreshToken: string): Promise<RefreshTokenResponse> => {
+	if (!CLIENT_ID) {
+		throw new Error("CLIENT_ID 환경 변수가 없음");
+	}
+	try {
+		const body = new URLSearchParams({
+			client_id: CLIENT_ID,
+			grant_type: "refresh_token",
+			refresh_token: refreshToken,
+		});
+		const response = await axios.post(`https://accounts.spotify.com/api/token`, body, {
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+		});
+		return response.data;
+	} catch (error) {
+		if (axios.isAxiosError(error)) console.error(error.response?.data);
+		throw new Error("access token 재발급 실패", { cause: error });
 	}
 };

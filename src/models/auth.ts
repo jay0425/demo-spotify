@@ -13,6 +13,15 @@ export interface ExchangeTokenResponse {
 	refresh_token: string; // access token 이 만료됐을 때 새로 받는 데 쓴다
 }
 
+// 만료된 access token 을 refresh token 으로 새로 받았을 때 응답 (POST /api/token, grant_type=refresh_token)
+export interface RefreshTokenResponse {
+	access_token: string;
+	token_type: string;
+	scope: string;
+	expires_in: number;
+	refresh_token?: string; // 새 refresh token 을 줄 때도 있고 안 줄 때도 있다. 없으면 원래 것을 계속 쓴다
+}
+
 export interface AuthUrlParams {
 	response_type: "code";
 	client_id: string;
