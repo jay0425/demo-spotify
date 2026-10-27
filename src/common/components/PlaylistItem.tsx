@@ -11,15 +11,16 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 
 export interface PlaylistItemProps {
+	id: string;
 	/**이미지 주소. */
-	image?: string;
+	image: string | null;
 	/** 플레이리스트 이름 */
-	name?: string;
+	name: string;
 	/** 만든 사람 이름. 없으면 "플레이리스트" 만 나온다 */
-	ownerName?: string | null;
+	ownerName: string | null;
 	/** 지금 보고 있는 플레이리스트인지. true 면 줄 배경을 칠해서 표시한다 */
 	selected?: boolean;
-	onClick: () => void;
+	handleClick: (id: string) => void;
 }
 
 // 이미지 위 재생 아이콘을 감싸는 div 의 클래스. 줄에 마우스를 올렸을 때 이 클래스를 찾아서 보이게 한다.
@@ -67,17 +68,25 @@ const PlayOverlay = styled("div")(({ theme }) => ({
 	transition: "opacity 0.2s",
 }));
 
-const PlaylistItem = ({ image, name, ownerName, selected = false, onClick }: PlaylistItemProps) => {
+const PlaylistItem = ({
+	id,
+	image,
+	name,
+	ownerName,
+	selected = false,
+	handleClick,
+}: PlaylistItemProps) => {
 	return (
 		<ListItem disablePadding>
 			{/* selected : MUI 가 테마의 primary 색을 옅게 깔아서 선택된 줄을 표시해준다 */}
 			<PlaylistItemButton
 				selected={selected}
 				aria-current={selected ? "page" : undefined} // 스크린 리더에 "현재 페이지" 라고 알려준다
-				onClick={onClick}>
+				onClick={() => handleClick(id)}>
 				<ImageBox>
 					{/* 사진이 없거나 못 불러오면 안쪽(children)의 음표 아이콘이 대신 보인다 */}
-					<PlaylistImage variant="rounded" src={image} alt={name}>
+					{/* Avatar 의 src 는 string | undefined 만 받아서, null 이면 undefined 로 바꿔서 넘긴다 */}
+					<PlaylistImage variant="rounded" src={image ?? undefined} alt={name}>
 						<MusicNoteIcon />
 					</PlaylistImage>
 					<PlayOverlay className={PLAY_OVERLAY_CLASS}>

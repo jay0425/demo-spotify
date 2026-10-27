@@ -52,18 +52,22 @@ const Playlist = ({ ref, isFetching, playlists }: PlaylistProps) => {
 	// 클릭한 id 를 state 로 따로 들고 있지 않고 주소에서 읽어서, 새로고침하거나 뒤로가기 해도 선택 표시가 주소와 맞는다.
 	const selectedId = useMatch("/playlist/:id")?.params.id;
 
+	const handleClick = (id: string) => {
+		navigate(`/playlist/${id}`);
+	};
+
 	return (
 		<PlaylistList disablePadding>
 			{playlists.map((playlist, index) => (
 				// id 가 없는 경우는 거의 없지만 타입상 optional 이라 index 로 대신한다
 				<PlaylistItem
-					key={playlist.id ?? index}
-					image={playlist.images?.[0]?.url} // images 는 큰 사진부터 오고, 비어 있을 수도 있다
-					name={playlist.name}
-					ownerName={playlist.owner?.display_name}
+					id={playlist.id || ""}
+					key={playlist.id || index}
+					image={playlist.images?.[0]?.url || null} // images 는 큰 사진부터 오고, 비어 있을 수도 있다
+					name={playlist.name || ""}
+					ownerName={playlist.owner?.display_name || null}
 					selected={!!playlist.id && playlist.id === selectedId}
-					// id 가 없으면 /playlist/ (목록 페이지) 로 잘못 가니까 이동하지 않는다
-					onClick={() => playlist.id && navigate(`/playlist/${playlist.id}`)}
+					handleClick={handleClick}
 				/>
 			))}
 			{/* 불러오는 중에는 표시 대신 스피너만 둔다 (BottomSentinel 주석 참고) */}
