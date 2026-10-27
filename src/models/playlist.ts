@@ -9,8 +9,10 @@ export interface PlaylistItemsRef {
 	total?: number;
 }
 
+// SimplifiedPlaylist(목록용)와 Playlist(상세)가 같이 갖는 필드.
+// 둘은 대부분 같고 items/tracks 의 타입만 달라서, 같은 부분은 여기 한 번만 쓰고 각자 extends 한다.
 // 스포티파이 문서에 Required 표시가 없어서 전부 optional 이다.
-export interface SimplifiedPlaylist {
+export interface BasePlaylist {
 	collaborative?: boolean; // 다른 사람이 수정할 수 있는 플레이리스트인지
 	description?: string | null; // 수정된/인증된 플레이리스트에만 값이 있다
 	external_urls?: ExternalUrls;
@@ -21,11 +23,15 @@ export interface SimplifiedPlaylist {
 	owner?: Owner;
 	public?: boolean | null;
 	snapshot_id?: string; // 플레이리스트 버전 식별자
+	type?: "playlist";
+	uri?: string;
+}
+
+// 목록(GET /me/playlists, 검색 결과)에 들어가는 플레이리스트. 곡 목록 대신 링크와 개수만 온다.
+export interface SimplifiedPlaylist extends BasePlaylist {
 	items?: PlaylistItemsRef;
 	/** @deprecated items 를 사용한다 */
 	tracks?: PlaylistItemsRef;
-	type?: string;
-	uri?: string;
 }
 
 export interface GetCurrentUserPlaylistRequest {
@@ -54,9 +60,9 @@ export interface PlaylistTrack {
 	track?: Track | Episode | null;
 }
 
-// GET /playlists/{id} 응답. 목록용(SimplifiedPlaylist)과 달리 items 안에 곡 목록이 들어 있다.
+// GET /playlists/{id} 응답. 목록용(SimplifiedPlaylist)과 달리 items 안에 곡 목록이 들어 있고, followers 도 온다.
 // 단, 곡 목록은 내가 만들었거나 같이 편집하는 플레이리스트에만 온다. 남의 플레이리스트는 이름, 이미지 같은 정보만 온다.
-export interface Playlist extends SimplifiedPlaylist {
+export interface Playlist extends BasePlaylist {
 	followers?: Followers;
 	primary_color?: string | null;
 	items?: ApiResponse<PlaylistTrack>; // 한 번에 최대 100곡까지 온다. 나머지는 next 주소로 더 불러온다
