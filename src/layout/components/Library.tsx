@@ -24,8 +24,8 @@ const Library = () => {
 	const { data: user } = useGetCurrentUserProfile();
 
 	// 목록 맨 아래(ref 를 단 div)가 보이면 다음 페이지를 불러온다.
-	// 의존성에 inView 만 넣으면, 불러온 10개로 화면이 다 안 차서 맨 아래가 계속 보이는 경우 inView 가 true 그대로라
-	// effect 가 다시 안 돈다. isFetchingNextPage 도 넣어야 불러오기가 끝났을 때(false) 다시 확인해서 이어서 불러온다.
+	// Playlist 는 불러오는 동안 이 div 를 뺐다가 끝나면 다시 넣는다. 그래서 inView 는 불러올 때마다 false 가 됐다가,
+	// 다시 넣은 div 가 정말 보일 때만(불러온 10개로 화면이 다 안 찼을 때) true 로 바뀌어서 이어서 불러온다. (Playlist 의 BottomSentinel 주석 참고)
 	useEffect(() => {
 		if (inView && hasNextPage && !isFetchingNextPage) {
 			fetchNextPage();
