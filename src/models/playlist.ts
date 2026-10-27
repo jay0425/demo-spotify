@@ -1,5 +1,7 @@
 import { ApiResponse } from "./apiResponse";
-import { ExternalUrls, Image, Owner } from "./commonType";
+import { ExternalUrls, Followers, Image, Owner } from "./commonType";
+import { Episode } from "./episode";
+import { Track } from "./track";
 
 // 플레이리스트 안의 트랙 목록은 링크(href)와 개수(total)만 온다.
 export interface PlaylistItemsRef {
@@ -14,7 +16,7 @@ export interface SimplifiedPlaylist {
 	external_urls?: ExternalUrls;
 	href?: string;
 	id?: string;
-	images?: Image[]; // 비어 있거나 최대 3개. url 은 하루 안에 만료되는 임시 주소다
+	images?: Image[] | null; // 비어 있거나 최대 3개. url 은 하루 안에 만료되는 임시 주소다. 곡이 없는 플레이리스트는 null 로 온다
 	name?: string;
 	owner?: Owner;
 	public?: boolean | null;
@@ -34,3 +36,32 @@ export interface GetCurrentUserPlaylistRequest {
 
 // 페이지 단위 응답이라 ApiResponse 의 items 에 SimplifiedPlaylist 를 넣어서 쓴다.
 export type GetCurrentUserPlaylistResponse = ApiResponse<SimplifiedPlaylist>;
+
+export interface GetPlaylistRequest {
+	playlist_id: string;
+	market?: string;
+	fields?: string;
+	additional_types?: string;
+}
+
+// 플레이리스트 안의 한 줄 (GET /playlists/{id} 응답의 items.items 에 들어간다)
+export interface PlaylistTrack {
+	added_at?: string | null; // 추가된 시각. 아주 오래된 플레이리스트는 null 일 수 있다
+	added_by?: Owner | null; // 이 곡을 추가한 사람
+	is_local?: boolean; // 로컬 파일인지
+	item?: Track | Episode | null; // 곡 또는 팟캐스트 에피소드. 더 이상 들을 수 없는 곡이면 null 일 수 있다
+	/** @deprecated item 을 사용한다 */
+	track?: Track | Episode | null;
+}
+
+// GET /playlists/{id} 응답. 목록용(SimplifiedPlaylist)과 달리 items 안에 곡 목록이 들어 있다.
+// 단, 곡 목록은 내가 만들었거나 같이 편집하는 플레이리스트에만 온다. 남의 플레이리스트는 이름, 이미지 같은 정보만 온다.
+export interface Playlist extends SimplifiedPlaylist {
+	followers?: Followers;
+	primary_color?: string | null;
+	items?: ApiResponse<PlaylistTrack>; // 한 번에 최대 100곡까지 온다. 나머지는 next 주소로 더 불러온다
+	/** @deprecated items 를 사용한다 */
+	tracks?: ApiResponse<PlaylistTrack>;
+}
+
+export type GetPlaylistResponse = Playlist;

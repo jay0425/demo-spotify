@@ -1,4 +1,5 @@
 import { ExternalUrls, Image, Restriction } from "./commonType";
+import { SimplifiedShow } from "./show";
 
 export interface SimplifiedEpisode {
 	/** @deprecated 스포티파이에서 더 이상 권장하지 않는 필드 */
@@ -27,4 +28,9 @@ export interface SimplifiedEpisode {
 	type: "episode";
 	uri: string;
 	restrictions?: Restriction;
+}
+
+// 에피소드 하나를 받을 때(플레이리스트 안의 에피소드 등)는 어느 쇼(팟캐스트)의 에피소드인지도 같이 온다.
+export interface Episode extends SimplifiedEpisode {
+	show: SimplifiedShow;
 }
